@@ -331,8 +331,34 @@ def tntCannon():
     mc.setBlock(player.x+1, player.y+2, player.z+2, block.TNT.id,1)
     mc.postToChat("This is the TNT Cannon.")
     time.sleep(1)
-    mc.postToChat("Hit the exposed TNT to launch it!.")   
+    mc.postToChat("Hit the exposed TNT to launch it!.")
 
+def heatWave():
+    player = mc.player.getPos()
+    i = 30
+    while i > 0:
+        i-=1
+        pos_x = player.x + random.randint(-4,4)
+        pos_y = player.y + random.randint(-4,4)
+        pos_z = player.z + random.randint(-4,4)
+        checkBlock = mc.getBlock(pos_x, pos_y, pos_z)
+        if checkBlock in [5,6,8,9,17,18,30,31,35,37,38,39,40,47,53,54,58,64,65,81,83,85,107,53,59,96]:
+            mc.setBlock(pos_x, pos_y, pos_z, block.AIR)
+        elif checkBlock in [1,4,43,44,45,48,49,67,98]:
+            mc.setBlock(pos_x, pos_y, pos_z, block.LAVA)
+        elif checkBlock in [78,79,80]:
+            mc.setBlock(pos_x, pos_y, pos_z, block.WATER)
+        elif checkBlock  == 82:
+            mc.setBlock(pos_x, pos_y, pos_z, block.BRICK_BLOCK)
+        elif checkBlock == 2:
+            mc.setBlock(pos_x, pos_y, pos_z, block.DIRT)
+        elif checkBlock in [3,13,60]:
+            mc.setBlock(pos_x, pos_y, pos_z, block.STONE)
+        elif checkBlock == 12:
+            mc.setBlock(pos_x, pos_y, pos_z, block.SANDSTONE)
+        else:
+            i+=1
+    
 while True:
     choice = input("Make your choice")
     if choice == "1":    
@@ -349,6 +375,8 @@ while True:
         tntRoulette()
     elif choice == "7":
         tntCannon()
+    elif choice == "8":
+        heatWave()
     elif choice == "S":
         mc.saveCheckpoint()
     elif choice == "L":
