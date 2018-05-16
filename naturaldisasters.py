@@ -299,41 +299,44 @@ def tntRoulette():
 def tntCannon():
     player = mc.player.getPos()
     # Create Obsidian and glass shell
-    mc.setBlocks(player.x-3, player.y, player.z+1,
-                 player.x+6, player.y+1, player.z+1,
+    mc.setBlocks(player.x-3, player.y-2, player.z+1,
+                 player.x+6, player.y-1, player.z+1,
                  block.OBSIDIAN)
-    mc.setBlocks(player.x-3, player.y+1, player.z+3,
-                 player.x+6, player.y, player.z+3,
+    mc.setBlocks(player.x-3, player.y-2, player.z+3,
+                 player.x+6, player.y-1, player.z+3,
+                 block.OBSIDIAN)
+    mc.setBlocks(player.x-3, player.y-3, player.z+2,
+                 player.x+6, player.y-3, player.z+2,
                  block.OBSIDIAN)
     mc.setBlocks(player.x-3, player.y-1, player.z+2,
-                 player.x+6, player.y-1, player.z+2,
+                 player.x, player.y-1, player.z+2,
                  block.OBSIDIAN)
-    mc.setBlocks(player.x-3, player.y+1, player.z+2,
-                 player.x, player.y+1, player.z+2,
-                 block.OBSIDIAN)
-    mc.setBlocks(player.x+1, player.y+3, player.z+2,
-                 player.x+5, player.y+3, player.z+2,
-                 block.OBSIDIAN)
-    mc.setBlocks(player.x+1, player.y+2, player.z+1,
-                 player.x+5, player.y+2, player.z+1,
-                 block.GLASS)
-    mc.setBlocks(player.x+1, player.y+2, player.z+3,
-                 player.x+5, player.y+2, player.z+3,
-                 block.GLASS)
-    mc.setBlock(player.x-3, player.y, player.z+2, block.WATER)
-    mc.setBlock(player.x-4, player.y, player.z+2, block.OBSIDIAN)
-    mc.setBlock(player.x+7, player.y, player.z+2, block.OBSIDIAN)
-    # Place TNT
     mc.setBlocks(player.x+1, player.y+1, player.z+2,
-                 player.x+6, player.y+1, player.z+2,
+                 player.x+5, player.y+1, player.z+2,
+                 block.OBSIDIAN)
+    mc.setBlocks(player.x+1, player.y, player.z+1,
+                 player.x+5, player.y, player.z+1,
+                 block.GLASS)
+    mc.setBlocks(player.x+1, player.y, player.z+3,
+                 player.x+5, player.y, player.z+3,
+                 block.GLASS)
+    mc.setBlocks(player.x-2, player.y-2, player.z+2,
+                 player.x+5, player.y-2, player.z+2,
+                 block.AIR)
+    mc.setBlock(player.x-3, player.y-2, player.z+2, block.WATER)
+    mc.setBlock(player.x-4, player.y-2, player.z+2, block.OBSIDIAN)
+    mc.setBlock(player.x+7, player.y-2, player.z+2, block.OBSIDIAN)
+    # Place TNT
+    mc.setBlocks(player.x+1, player.y-1, player.z+2,
+                 player.x+6, player.y-1, player.z+2,
                  block.TNT)
     # Prime first block
-    mc.setBlock(player.x+1, player.y+2, player.z+2, block.TNT.id,1)
+    mc.setBlock(player.x+1, player.y, player.z+2, block.TNT.id,1)
     mc.postToChat("This is the TNT Cannon.")
     time.sleep(1)
     mc.postToChat("Hit the exposed TNT to launch it!.")
 
-def heatWave():
+def heatwave():
     player = mc.player.getPos()
     i = 30
     while i > 0:
@@ -365,7 +368,40 @@ def heatWave():
             mc.setBlock(pos_x, pos_y, pos_z, block.SANDSTONE)
         else:
             i+=1
-    
+def snowstorm():
+    player = mc.player.getPos()
+    for _ in range(random.randint(6,8)):
+        for _ in range(random.randint(4,10)):
+            pos_x = player.x + random.randint(-6,6)
+            pos_z = player.z + random.randint(-6,6)
+            pos_y = mc.getHeight(pos_x,pos_z)
+            if mc.getBlock(pos_x,pos_y,pos_z)!=block.SNOW:
+                mc.setBlock(pos_x,pos_y,pos_z,block.SNOW)
+            else:
+                mc.setBlock(pos_x,pos_y,pos_z,[block.SNOW_BLOCK,block.SNOW_BLOCK,block.ICE][random.randint(0,2)])
+            time.sleep(0.5)
+
+def emptySpaceFinder(x,y,z):
+    for i in range(-1,1):
+        for j in range(-1,1):
+            if mc.getBlock(x+i,y-1,z+j) == 0:
+                return [True, x+i,z+j]
+    return [False]
+
+def landslide():
+    player = mc.player.getPos()
+    for _ in range(random.randint(3,5)):
+        for _ in range(random.randint(12,20)):
+            pos_x = player.x + random.randint(-4,4)
+            pos_z = player.z + random.randint(-4,4)
+            pos_y = mc.getHeight(pos_x,pos_z) - 1
+            checkBlock = mc.getBlock(pos_x,pos_y,pos_z) 
+            if checkBlock in [1,2,3,4,12,13,24,48,49,60,82,98]:
+                emptySpace = emptySpaceFinder(pos_x,pos_y,pos_z) 
+                if emptySpace[0]:
+                    mc.setBlock(pos_x,pos_y,pos_z,block.AIR)
+                    mc.setBlock(emptySpace[1],mc.getHeight(emptySpace[1],emptySpace[2]),emptySpace[2],checkBlock)                
+      
 while True:
     choice = input("Make your choice")
     if choice == "1":    
@@ -377,14 +413,18 @@ while True:
     elif choice == "4":
         flood()
     elif choice == "5":
-        tntRun()
+        heatwave()
     elif choice == "6":
-        tntRoulette()
+        snowstorm()
     elif choice == "7":
-        tntCannon()
+        landslide()
     elif choice == "8":
-        heatWave()
-    elif choice == "S":
+        tntRun()
+    elif choice == "9":
+        tntRoulette()
+    elif choice == "10":
+        tntCannon()
+    elif choice == "11":
         mc.saveCheckpoint()
-    elif choice == "L":
+    elif choice == "12":
         mc.restoreCheckpoint()
