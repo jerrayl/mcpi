@@ -342,18 +342,25 @@ def heatWave():
         pos_y = player.y + random.randint(-4,4)
         pos_z = player.z + random.randint(-4,4)
         checkBlock = mc.getBlock(pos_x, pos_y, pos_z)
+        # if block is combustible
         if checkBlock in [5,6,8,9,17,18,30,31,35,37,38,39,40,47,53,54,58,64,65,81,83,85,107,53,59,96]:
             mc.setBlock(pos_x, pos_y, pos_z, block.AIR)
+        # if block is smeltable
         elif checkBlock in [1,4,43,44,45,48,49,67,98]:
             mc.setBlock(pos_x, pos_y, pos_z, block.LAVA)
+        # if block is meltable
         elif checkBlock in [78,79,80]:
             mc.setBlock(pos_x, pos_y, pos_z, block.WATER)
+        # exception for clay
         elif checkBlock  == 82:
             mc.setBlock(pos_x, pos_y, pos_z, block.BRICK_BLOCK)
+        # exception for grass
         elif checkBlock == 2:
             mc.setBlock(pos_x, pos_y, pos_z, block.DIRT)
+        # exception for gravel and dirt
         elif checkBlock in [3,13,60]:
             mc.setBlock(pos_x, pos_y, pos_z, block.STONE)
+        # exception for sand
         elif checkBlock == 12:
             mc.setBlock(pos_x, pos_y, pos_z, block.SANDSTONE)
         else:
