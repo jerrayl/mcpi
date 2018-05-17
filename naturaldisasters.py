@@ -1,12 +1,14 @@
 import random, time
 import mcpi.minecraft as minecraft
 import mcpi.block as block
-import matrixkeypad
+
 mc = minecraft.Minecraft.create()  
 
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
+
+import matrixkeypad
 
 D2 = 17
 D3 = 18
@@ -20,6 +22,9 @@ D10 = 8
 A3 = 7
 
 #GPIO.setup(D3, GPIO.IN)
+
+jokeList = ["Q: Hear about the creeper that went to a party?","A: He had a BLAST!","Q: Which musical instrument do skeletons play?","A: Trom-Bone","Q: Why didn’t the skeleton go to the prom?","A: He had no body to dance with?","Q: What kind of music do Minecraft players listen to?","A: Bed-rock and roll.","Q: What do Australian Creepers use to hunt?","A: BOOM-a-rangs","Q: What do they teach in witch school?","A: Spelling.","Q: What did Steve say when he was angry at a skeleton?","A: I’ve got a bone to pick with you!","Q: What do skeletons order at the village restaurant?","A: Spare ribs","Q: What kind of makeup do witches wear?","A: Mas-scare-a","Q: What did the zombie say to the villager?","A: Nice to eat you.","Q: What is a Creepers favorite food?","A: Ssssssssalad","Q: Do you hear about the Minecraft movie?","A: It’s a blockbuster.","Q: What is a witch with poison ivy called?","A: An itchy witchy.","Q: Which band always plays at the Minecraft New Year’s party?","A: The Village People","Q: Why can’t the Ender Dragon ever understand a book?","A: Because he always starts at the end.","Q: How are ocelots like m&m’s.","A: You can’t just have one.","Q: What do witches put in their hair?","A: Scare spray","Q: Why didn’t the enderman cross the road?","A: Because he teleported.","Q: How do zombies get so good at Minecraft?","A: DEADication.","Q: Where does Steve rent movies?","A: Blockbuster","Q: What kind of parties do Minecraft players have?","A: Block parties.","Q: What did Charlie Brown say when Steve broke his baseball bat?","A: You Blockhead!","Q: Why did the mushroom make such a good roommate?","A: It’s a real fungi.","Q: What is Cobblestone’s favorite type of music?","A: Rock music.","Q: What did the chicken say to the cow?","A: Nice to meat you.","Q: What tops off a Creeper’s ice cream sundae?","A: Whipped scream.","Q: How does Steve measure his shoe size?","A: In Square Feet.","Q: Why did the Creeper cross the road?","A: To get to the other Sssssssssside","Q: What did the chicken say to the sheep?","A: Nice to meet ewe.","Q: Which rock band do skeletons like most?","A: The Grateful Dead","Q: How did Steve make the skeleton laugh?","A: He tickled it’s funny bone.","Q: Which country do ghasts like the most?","A: The Nether-Lands!","Q: What city do most wolves live?","A: Howllywood, California","Q: Where do miners sleep?","A: On their bed-rocks","Q: What do you call a skeleton that sits around all day?","A: A lazy bone.","Q: What did the chicken say to the ocean?","A: Nothing, it just waved.","Q: Why did the sailor bring gold, silver and iron into his boat?","A: He needed ores (oars).","Q: What was the name of the Minecraft boy band?","A: New Kids on the Block.","Q: Why can’t you score against Minecraft basketball players?","A: They know how to block.","Q: What is the official sport of Minecraft?","A: Boxing.","Q: Why did the creeper cross the road?","A: Because there was an ocelot chasing him.","Q: Why aren’t there cars in Minecraft?","A: The streets are blocked off.","Q: Why didn’t the skeleton like to fly?","A: He had no guts","Q: Why couldn’t the minecraft player join the army?","A: He was a miner.","Q: What did Steve say to his girlfriend?","A: I dig you.","Q: How do villagers stay fit?","A: They jog around the block.","Q: What did the sheep say after trying to eat a cactus?","A: Accidents Wool happen.","Q: What’s the difference between a crazy rabbit and a counterfeit dollar bill?","A: One is bad money, the other is a mad bunny","Q: Where do you shear a sheep?","A: At the baa-baa shop.","Q: Who won the skeleton beauty contest?","A: No body.","Q: What time is it when ten ocelots chase Steve?","A: Ten after One.","Q: Why didn’t the skeleton cross the road?","A: He didn’t have the guts.","Q: How does Steve avoid getting sunburn?","A: SunBLOCK.","Q: What did the skeleton say to the hungry wolf?","A: Bone Appetit","Q: What did the minecraft turkey say?","A: Cobble, cobble, cobble!","Q: How do you make things change direction in Minecraft?","A: You block their way.","Q: How does Steve get exercise?","A: By running around the block.","Q: What is a creeper’s favorite subject?","A: HissssSSSSStory","Q: What do minecraft friends do for fun on the weekend?","A: Go to square dances.","Q: Why could’t the miner get to his diamonds?","A: Something blocked his way","Q: What do skeletons say before they begin dining?","A: Bone appetit."]
+
     
 def volcano():
     loc = mc.player.getPos()
@@ -401,8 +406,45 @@ def landslide():
                 if emptySpace[0]:
                     mc.setBlock(pos_x,pos_y,pos_z,block.AIR)
                     mc.setBlock(emptySpace[1],mc.getHeight(emptySpace[1],emptySpace[2]),emptySpace[2],checkBlock)                
-      
+
+def overgrowth():
+    player = mc.player.getPos()
+    for _ in range(15):
+        x_pos = player.x+random.randint(-6,6)
+        z_pos = player.z+random.randint(-6,6)
+        mc.setBlock(x_pos,mc.getHeight(x_pos,z_pos),z_pos,[6,31,37,38,39,40,81,103][random.randint(0,7)])
+
+    for _ in range(random.randint(6,12)):
+        ran_x = random.randint(-8,8)
+        ran_z = random.randint(-8,8)
+        mc.setBlocks(player.x+ran_x-1, player.y+2, player.z+ran_z-1,
+                 player.x+ran_x+1, player.y+4, player.z+ran_z+1,
+                 block.LEAVES)
+        mc.setBlocks(player.x+ran_x, player.y, player.z+ran_z,
+                 player.x+ran_x, player.y+4, player.z+ran_z,
+                 block.WOOD)
+
+def cyclone():
+    for _ in range(random.randint(3,5)):
+        player = mc.player.getPos()
+        mc.player.setTilePos(player.x+random.randint(-20,20),player.y+random.randint(10,15),player.z+random.randint(-20,20))
+        time.sleep(0.3)
+
+def tntLauncher():
+    player = mc.player.getPos()
+    mc.setBlock(player.x+1,player.y,player.z,block.TNT.id,1)
+    mc.setBlock(player.x+1,player.y-1,player.z,block.WATER)
+    mc.postToChat("Stand on the TNT and detonate it for blastoff")
+        
+
+def joke():
+    ran = random.randint(0,60)
+    mc.postToChat(jokeList[ran*2])
+    time.sleep(0.5)
+    mc.postToChat(jokeList[ran*2+1])
+
 while True:
+    # choice = matrixkeypad.checkKeypress()
     choice = input("Make your choice")
     if choice == "1":    
         volcano()
@@ -419,12 +461,20 @@ while True:
     elif choice == "7":
         landslide()
     elif choice == "8":
-        tntRun()
+        overgrowth()
     elif choice == "9":
-        tntRoulette()
+        cyclone()
     elif choice == "10":
-        tntCannon()
+        tntRun()
     elif choice == "11":
-        mc.saveCheckpoint()
+        tntRoulette()
     elif choice == "12":
+        tntCannon()
+    elif choice == "13":
+        tntLauncher()
+    elif choice == "14":
+        joke()
+    elif choice == "15":
+        mc.saveCheckpoint()
+    elif choice == "16":
         mc.restoreCheckpoint()
