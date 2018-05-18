@@ -444,37 +444,48 @@ def joke():
     mc.postToChat(jokeList[ran*2+1])
 
 while True:
-    # choice = matrixkeypad.checkKeypress()
-    choice = input("Make your choice")
-    if choice == "1":    
+    choice = matrixkeypad.checkKeypress()
+    if choice == 1:
+        mc.postToChat("Volcano")
         volcano()
-    elif choice == "2":
-        meteorShower()
-    elif choice == "3":
+    elif choice == 2:
+        mc.postToChat("Meteor Shower")
+        meteorShower() 
+    elif choice == 3:
+        mc.postToChat("Sinkhole")
         sinkhole()
-    elif choice == "4":
+    elif choice == 4:
+        mc.postToChat("Flood")
         flood()
-    elif choice == "5":
-        heatwave()
-    elif choice == "6":
+    elif choice == 5:
+        mc.postToChat("Heatwave")
+        heatwave() 
+    elif choice == 6:
+        mc.postToChat("Snowstorm")
         snowstorm()
-    elif choice == "7":
+    elif choice == 7:
+        mc.postToChat("Landslide")
         landslide()
-    elif choice == "8":
+    elif choice == 8:
+        mc.postToChat("Overgrowth")
         overgrowth()
-    elif choice == "9":
+    elif choice == 9:
+        mc.postToChat("Cyclone")
         cyclone()
-    elif choice == "10":
+    elif choice == "A":
         tntRun()
-    elif choice == "11":
+    elif choice == "B":
         tntRoulette()
-    elif choice == "12":
+    elif choice == "C":
         tntCannon()
-    elif choice == "13":
+    elif choice == "D":
         tntLauncher()
-    elif choice == "14":
+    elif choice == 0:
         joke()
-    elif choice == "15":
+    elif choice == "*":
+        mc.postToChat("Saved")
         mc.saveCheckpoint()
-    elif choice == "16":
+    elif choice == "#":
         mc.restoreCheckpoint()
+        mc.postToChat("Loaded")
+    time.sleep(1)
